@@ -1,21 +1,24 @@
 const express = require('express')
+const { DateTime } = require('luxon')
 const app = express()
 const port = 3000
 
 
-app.get('/', (req, res) => {
+
+app.get('/api', (req, res) => {
     res.send({
-        "slack_name": "example_name",
-        "current_day": "Monday",
-        "utc_time": "2023-08-21T15:04:05Z",
-        "track": "backend",
-        "github_file_url": "https://github.com/username/repo/blob/main/file_name.ext",
-        "github_repo_url": "https://github.com/username/repo",
+        "slack_name": req.query.slack_name,
+        "current_day": DateTime.now().toFormat('cccc'),
+        "utc_time": DateTime.utc().toISO(),
+        "track": req.query.track,
+        "github_file_url": "https://github.com/jamesblack23/HNG-internship/blob/main/index.js",
+        "github_repo_url": "https://github.com/jamesblack23/HNG-internship",
         "status_code": 200
     })
-    console.log(req.query)
+
+
 })
 
 app.listen(port, () => {
-    console.log(`The server is listening on ,${port}`)
+    console.log(`The server is listening on port: ${port}`)
 })
